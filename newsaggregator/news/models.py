@@ -1,12 +1,12 @@
 from django.db import models
 
 CATEGORY_CHOICES = [
-    ('business','Business')
-    ('entertainment','Entertainment')
-    ('general','General')
-    ('health','Health')
-    ('science','Science')
-    ('sports','Sports')
+    ('business','Business'),
+    ('entertainment','Entertainment'),
+    ('general','General'),
+    ('health','Health'),
+    ('science','Science'),
+    ('sports','Sports'),
     ('technology','Technology')
 ]
 class News(models.Model):
