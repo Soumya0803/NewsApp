@@ -7,14 +7,19 @@
 <div>
   <canvas id="myChart"></canvas>
 </div>
-
+<h1>
+    Hourly Volume Graph 
+  </h1>
+  <div>
+    <canvas id="myChart2"></canvas>
+  </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
   const ctx = document.getElementById('myChart');
-  let label = "{{label|safe }}";
-  label = label.substring(1, label.length - 1) 
-  let label_list = label.split(",").map(Number); 
+  let daily_label = "{{label|safe }}";
+  daily_label = daily_label.substring(1, daily_label.length - 1) 
+  let daily_label_list = daily_label.split(",").map(Number); 
   
 
   let daily_data = "{{data|safe }}";
@@ -24,10 +29,35 @@
   new Chart(ctx, {
     type: 'line',
     data: {
-      labels: label_list,
+      labels: daily_label_list,
       datasets: [{
         label: 'Daily Top Healines Volume',
         data: daily_data_list,
+        fill: false,
+        borderColor: 'rgb(75, 192, 192)',
+        tension: 0.1
+      }]
+    },
+  });
+
+
+  const ctx2 = document.getElementById('myChart2');
+  let hourly_label = "{{hourly_label|safe }}";
+  hourly_label = hourly_label.substring(1, hourly_label.length - 1) 
+  let hourly_label_list = hourly_label.split(",").map(Number); 
+  
+
+  let hourly_data = "{{hourly_data|safe }}";
+  hourly_data = hourly_data.substring(1, hourly_label.length - 1) 
+  let hourly_data_list = hourly_data.split(",").map(Number);
+  
+  new Chart(ctx2, {
+    type: 'line',
+    data: {
+      labels: hourly_label_list,
+      datasets: [{
+        label: 'Hourly Top Healines Volume',
+        data: hourly_data_list,
         fill: false,
         borderColor: 'rgb(75, 192, 192)',
         tension: 0.1
