@@ -17,9 +17,12 @@ class TopHeadlines(models.Model):
     title =  models.CharField(max_length=1000)
     description =  models.CharField(max_length=1000,null=True)
     url = models.URLField(max_length=10000, null=True)
-    urlToImage = models.URLField(max_length=1000, null=True)
-    publishedAt = models.DateTimeField()
+    url_to_image = models.URLField(max_length=1000, null=True)
+    published_at = models.DateTimeField()
     content = models.TextField(null = True)
     category = models.CharField(max_length=50, choices=CATEGORY_CHOICES)
 
 
+class VolumeStatisticsDaily(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    total_results = models.IntegerField()

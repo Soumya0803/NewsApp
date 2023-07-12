@@ -1,6 +1,6 @@
 from celery import shared_task
 from newsapi import NewsApiClient
-from news.models import TopHeadlines
+from news.models import TopHeadlines, VolumeStatisticsDaily
 from decouple import config
 import requests
 import math
@@ -28,7 +28,7 @@ def populate_top_headlines_news_db():
     'sports',
     'technology'
     ]
-    
+    daily_total_results = 0
     # newsapi = NewsApiClient(api_key=API_KEY)
     for category in CATEGORY_CHOICES:
         # top_headlines = newsapi.get_top_headlines(category=category)
@@ -37,10 +37,11 @@ def populate_top_headlines_news_db():
         pagesize = 20
         result = get_top_headlines_per_page(category, page=1, pagesize=pagesize )
         news_articles = result['articles']
-        populate_db(news_articles, category,)
+        daily_total_results += result['totalResults'] # for all categories
+        populate_db(news_articles, category)
 
-        total_results = result['totalResults']
-        total_pages =  math.ceil(total_results/pagesize) 
+        category_total_results = result['totalResults']
+        total_pages =  math.ceil(category_total_results/pagesize) 
         
         # for page in range(2,total_pages+1):
         for page in range(2,6):  # Developer account restricted to 100 results 
@@ -50,6 +51,11 @@ def populate_top_headlines_news_db():
                 populate_db(news_articles, category)
             else:
                 break
+    # store daily total results
+    daily_results = VolumeStatisticsDaily(total_results = daily_total_results)
+    print('daily_results')
+    print(daily_results)
+    daily_results.save()
 
 def get_top_headlines_per_page(category, page, pagesize):
     top_headlines = f'https://newsapi.org/v2/top-headlines?category={category}&apiKey={API_KEY}&pageize={pagesize}&page={page}'
@@ -58,7 +64,7 @@ def get_top_headlines_per_page(category, page, pagesize):
 
 
 def populate_db(news_articles, category):
-    for article in news_articles:
+    for article in news_articles: 
             article_data = TopHeadlines(
                 source_id = article['source']['id'],
                 source_name = article['source']['name'],
@@ -66,8 +72,8 @@ def populate_db(news_articles, category):
                 title =  article['title'],
                 description =  article['description'],
                 url = article['url'],
-                urlToImage = article['urlToImage'],
-                publishedAt = article['publishedAt'],
+                url_to_image = article['urlToImage'],
+                published_at = article['publishedAt'],
                 content = article['content'],
                 category = category
             )

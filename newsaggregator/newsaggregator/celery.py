@@ -13,6 +13,6 @@ app.autodiscover_tasks()
 # app.conf.beat_schedule = {
 #     'top_headlines-populate-news-db': {
 #         'task': 'populate_top_headlines_news_db',
-#         'schedule': crontab(minute=0, hour=0)
-#     }
+#         'schedule': crontab(minute=0, hour=0),
+#     },
 # }

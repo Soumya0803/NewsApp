@@ -16,8 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-
+from news.views import volume_graphs
 urlpatterns = [
+       path(
+        "admin/statistics/",
+        admin.site.admin_view(volume_graphs),
+        name="admin-statistics"
+    ),
     path('admin/', admin.site.urls),
     path('', include('news.urls')),
 ]
