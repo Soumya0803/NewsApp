@@ -1,0 +1,39 @@
+
+{% extends "admin/base_site.html" %}
+{% block content %}
+<h1>
+  Daily Volume Graph for past week
+</h1>
+<div>
+  <canvas id="myChart"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  const ctx = document.getElementById('myChart');
+  let label = "{{label|safe }}";
+  label = label.substring(1, label.length - 1) 
+  let label_list = label.split(",").map(Number); 
+  
+
+  let daily_data = "{{data|safe }}";
+  daily_data = daily_data.substring(1, daily_data.length - 1) 
+  let daily_data_list = daily_data.split(",").map(Number);
+  
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: label_list,
+      datasets: [{
+        label: 'Daily Top Healines Volume',
+        data: daily_data_list,
+        fill: false,
+        borderColor: 'rgb(75, 192, 192)',
+        tension: 0.1
+      }]
+    },
+  });
+</script>
+{% endblock %}
+
