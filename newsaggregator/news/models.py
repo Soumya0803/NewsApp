@@ -10,16 +10,16 @@ CATEGORY_CHOICES = [
     ('technology','Technology')
 ]
 
-class News(models.Model):
+class TopHeadlines(models.Model):
     source_id = models.CharField(max_length=100, null= True)
     source_name =  models.CharField(max_length=100)
     author =  models.CharField(max_length=100, null= True)
-    title =  models.CharField(max_length=500)
-    description =  models.CharField(max_length=500)
-    url = models.URLField(max_length=500, null=True, blank=True)
-    urlToImage = models.URLField(max_length=500, null=True, blank=True)
+    title =  models.CharField(max_length=1000)
+    description =  models.CharField(max_length=1000,null=True)
+    url = models.URLField(max_length=10000, null=True)
+    urlToImage = models.URLField(max_length=1000, null=True)
     publishedAt = models.DateTimeField()
-    content = models.TextField()
+    content = models.TextField(null = True)
     category = models.CharField(max_length=50, choices=CATEGORY_CHOICES)
 
 
