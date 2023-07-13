@@ -1,5 +1,5 @@
 # NewsApp
- <img src="doc_images/NewsApi.png" width=70% >
+ <img src="doc_images/NewsApi.png" width=85% >
 
 ## Installation Instructions
 
@@ -56,14 +56,14 @@ view: TopHeadlinesView
 model: TopHeadlines
 template: home.html
 ``` 
-<img src="doc_images/home.png" width=70% >
+<img src="doc_images/home.png" width=85% >
 <br>
 <br>
 
 - Pagination is implemented for the top headlines  
 
 <br>
-<img src="doc_images/home_pagination.png" width=70% >
+<img src="doc_images/home_pagination.png" width=85% >
 
 ### http://\<base_url>/admin
 
@@ -72,8 +72,8 @@ A daily schedule to retrieve news data (top headlines) every day is configured t
 
 `task: populate_top_headlines_news_db`
 
-<img src="doc_images/admin.png" width=70% >
-<img src="doc_images/admin_tasks.png)" width=70% >
+<img src="doc_images/admin.png" width=85% >
+<img src="doc_images/admin_tasks.png)" width=85% >
 
 ### http://\<base_url>/admin/statistics
 
@@ -82,10 +82,10 @@ The hourly and daily news volume are plotted on graph using chart.js
 view: volume_graphs
 template: volume_graphs.html
  ```
-Daily Volume
+#### Daily Volume
 
-<img src="doc_images/graph_daily.png" width=70% >
+<img src="doc_images/graph_daily.png" width=85% >
 
-Hourly Volume
+#### Hourly Volume
 
-<img src="doc_images/graph_hourly.png" width=70% >
+<img src="doc_images/graph_hourly.png" width=85% >
