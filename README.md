@@ -1,6 +1,5 @@
 # NewsApp
- ![NewsApp](doc_images/NewsApi.png)
-create .env in newsaggregator folder 
+ <img src="doc_images/NewsApi.png" width=70% >
 
 ## Installation Instructions
 
@@ -13,7 +12,6 @@ https://docs.docker.com/engine/install/
 
 - Create .env file
 `touch .env`
-
 
 - Put the following content
 	```
@@ -33,28 +31,51 @@ https://docs.docker.com/engine/install/
 	Note2: When running for the first time
 	- Admin User will be created with credentials Username: `admin`, Password: `adminpassword`
 	- DB will be automatically populated from NewsAPI
-  
+
+## Features
+
+- News APP UI.
+- Pagination in UI.
+- News API https://newsapi.org/ is used as a Datasource.
+- Handled Pagination in API.
+- Celery: Scheduling Data pipeline for storing data to DB from NewsAPI.
+- Redis: Celery Message Broker.
+- PostgreSQL DB: Used for Application Data Storage.
+- Containerisation: Docker and Docker Compose, `docker compose up` one command to setup everything, Django, DB, Celery, Redis.
+- Daily Volume Graph for past week
+- Hourhly Volume Graph
+
+## NEWS APP 
 
 News App displays the top headlines stored in the postgres DB for the past 7 days.
+
+### http://\<base_url>/
+
 ```
 view: TopHeadlinesView
 model: TopHeadlines
 template: home.html
-```
+``` 
+<img src="doc_images/home.png" width=70% >
+<br>
+<br>
 
-![NewsApp](doc_images/home.png)
+- Pagination is implemented for the top headlines  
 
-Pagination is implemented for the top headlines  
- 
-![NewsApp](doc_images/home_pagination.png)
+<br>
+<img src="doc_images/home_pagination.png" width=70% >
+
+### http://\<base_url>/admin
 
 You can add and manage your periodic tasks from the Django Admin interface (Used django celery beat's  Database-backed Periodic Tasks) 
 A daily schedule to retrieve news data (top headlines) every day is configured to run once a day at 12.am.utc for a period of one week (7 days). It is disabled after one week in the celery task file.
 
 `task: populate_top_headlines_news_db`
 
-![NewsApp](doc_images/admin.png) 
-![NewsApp](doc_images/admin_tasks.png)
+<img src="doc_images/admin.png" width=70% >
+<img src="doc_images/admin_tasks.png)" width=70% >
+
+### http://\<base_url>/admin/statistics
 
 The hourly and daily news volume are plotted on graph using chart.js
 ```
@@ -63,8 +84,8 @@ template: volume_graphs.html
  ```
 Daily Volume
 
-![NewsApp](doc_images/graph_daily.png)
+<img src="doc_images/graph_daily.png" width=70% >
 
 Hourly Volume
 
-![NewsApp](doc_images/graph_hourly.png)
+<img src="doc_images/graph_hourly.png" width=70% >
