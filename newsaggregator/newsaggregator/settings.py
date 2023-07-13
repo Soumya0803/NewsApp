@@ -30,7 +30,7 @@ ALLOWED_HOSTS = [
     'https://newsapp.soumya0803.in'
 ]
 
-CSRF_TRUSTED_ORIGINS = ['127.0.0.1', 'https://newsapp.soumya0803.in']
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1', 'https://newsapp.soumya0803.in']
 # Application definition
 
 INSTALLED_APPS = [
