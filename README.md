@@ -1,5 +1,5 @@
 # NewsApp
- 
+ ![NewsApp](NewsApi.png)
 create .env in newsaggregator folder 
 
 example 
