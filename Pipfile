@@ -10,6 +10,8 @@ python-decouple = "*"
 psycopg2 = "*"
 newsapi-python = "*"
 django-celery-results = "*"
+redis = "*"
+celery = "*"
 
 [dev-packages]
 

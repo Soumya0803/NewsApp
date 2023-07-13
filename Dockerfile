@@ -20,4 +20,4 @@ EXPOSE 8000
 WORKDIR /app/newsaggregator
 
 # Run Django development server
-CMD bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+CMD bash -c "python manage.py migrate && python manage.py create_admin && python manage.py create_periodic_task && python manage.py runserver 0.0.0.0:8000"

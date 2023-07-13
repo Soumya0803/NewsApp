@@ -28,7 +28,19 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: pipenv run celery -A newsapp worker --loglevel=info
+    command: celery -A newsaggregator worker --loglevel=info
+    volumes:
+      - .:/app
+    restart: on-failure
+    depends_on:
+      - db
+      - redis
+
+  beat:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: celery -A newsaggregator beat --loglevel=INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler
     volumes:
       - .:/app
     depends_on:
