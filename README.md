@@ -43,7 +43,7 @@ https://docs.docker.com/engine/install/
 - PostgreSQL DB: Used for Application Data Storage.
 - Containerisation: Docker and Docker Compose, `docker compose up` one command to setup everything, Django, DB, Celery, Redis.
 - Daily Volume Graph for past week
-- Hourhly Volume Graph
+- Hourly Volume Graph
 
 ## NEWS APP 
 
