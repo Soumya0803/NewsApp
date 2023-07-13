@@ -16,9 +16,11 @@ API_KEY = config('NEWS_API_KEY')
 
 def top_headlines(request):
     newsapi = NewsApiClient(api_key=API_KEY)
-    top_headlines = newsapi.get_top_headlines(language='en',country='us')
-    # print(top_headlines)
-    news_articles = top_headlines['articles']
+    # top_headlines = newsapi.get_top_headlines(language='en',country='us')
+    # news_articles = top_headlines['articles']
+    news_articles = TopHeadlines.objects.filter().values().order_by('-published_at') # data from db
+    
+    print(news_articles[:2])
     context = {
         'news_articles': news_articles
     }
@@ -89,5 +91,3 @@ class CustomAdminSite(admin.AdminSite):
         urls += [
             path("statistics/", volume_graphs, name="admin-statistics"),
         ]
-        return urls
-    
