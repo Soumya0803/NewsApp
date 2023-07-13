@@ -7,6 +7,8 @@ from zoneinfo import ZoneInfo
 from django.contrib import admin
 from django.contrib.admin.views.decorators import staff_member_required
 from django.urls import path
+from django.db.models.functions import TruncHour
+from django.db.models import Count
 
 # Create your views here.
 
@@ -37,29 +39,20 @@ def volume_graphs(request):
         data.append(i[0])
         #convert utc to local datetime to show correctly in graph
         local_dt= i[1].astimezone(localtz) 
-        label.append(local_dt.day)
+        label.append(local_dt.strftime("%Y-%m-%d"))
     
-    from django.db.models import Count
-    # hourly
-   
-    hourly_results = TopHeadlines.objects.filter(
-    published_at__gte=datetime.now()-timedelta(hours=36)
-    ).order_by(
-    'published_at'
-    ).extra(
-    select={
-    "hour": "date_part(\'hour\', \"published_at\")" }
-    ).values(
-    'hour'
-    ).annotate(
-    daily_results = Count('id')
-    )
-
+    # hourly 
+    # this is in utc for now
+    last_index = len(daily_results) - 1
+    last_date = daily_results[last_index][1].date()
+    
+    hourly_results = TopHeadlines.objects.filter(published_at__gte=last_date).annotate(hour=TruncHour('published_at')).values('hour').annotate(daily_results=Count('published_at')).order_by('hour')
+    # print(hourly_results)
     hourly_label = []
     hourly_data = []
-    print(hourly_results)
+    # print(hourly_results)
     for i in hourly_results:
-        hourly_label.append(i['hour'])
+        hourly_label.append(i['hour'].strftime("%Y-%m-%d %H:%M"))
         hourly_data.append(i['daily_results'])
 
     context = {
@@ -96,3 +89,4 @@ class CustomAdminSite(admin.AdminSite):
             path("statistics/", volume_graphs, name="admin-statistics"),
         ]
         return urls
+    

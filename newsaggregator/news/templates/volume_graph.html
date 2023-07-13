@@ -2,15 +2,16 @@
 {% extends "admin/base_site.html" %}
 {% block content %}
 <h1>
-  Daily Volume Graph for past week
+  Daily Volume Graph for Past Week
 </h1>
-<div>
+<div class="chart-container" style="position: relative; height:80vh; width:100vw">
   <canvas id="myChart"></canvas>
 </div>
+
 <h1>
     Hourly Volume Graph 
-  </h1>
-  <div>
+</h1>
+  <div class="chart-container" style="position: relative; height:80vh; width:100vw">
     <canvas id="myChart2"></canvas>
   </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -19,7 +20,7 @@
   const ctx = document.getElementById('myChart');
   let daily_label = "{{label|safe }}";
   daily_label = daily_label.substring(1, daily_label.length - 1) 
-  let daily_label_list = daily_label.split(",").map(Number); 
+  let daily_label_list = daily_label.split(",").map(String); //move to function 
   
 
   let daily_data = "{{data|safe }}";
@@ -44,12 +45,14 @@
   const ctx2 = document.getElementById('myChart2');
   let hourly_label = "{{hourly_label|safe }}";
   hourly_label = hourly_label.substring(1, hourly_label.length - 1) 
-  let hourly_label_list = hourly_label.split(",").map(Number); 
-  
+  let hourly_label_list = hourly_label.split(",").map(String); 
+  console.log(hourly_label_list)
 
   let hourly_data = "{{hourly_data|safe }}";
-  hourly_data = hourly_data.substring(1, hourly_label.length - 1) 
+  hourly_data = hourly_data.substring(1, hourly_data.length -1) 
+  console.log(hourly_data)
   let hourly_data_list = hourly_data.split(",").map(Number);
+  
   
   new Chart(ctx2, {
     type: 'line',
