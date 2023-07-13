@@ -20,7 +20,7 @@
   const ctx = document.getElementById('myChart');
   let daily_label = "{{label|safe }}";
   daily_label = daily_label.substring(1, daily_label.length - 1) 
-  let daily_label_list = daily_label.split(",").map(String); //move to function 
+  let daily_label_list = daily_label.split(","); //move to function 
   
 
   let daily_data = "{{data|safe }}";
@@ -45,12 +45,12 @@
   const ctx2 = document.getElementById('myChart2');
   let hourly_label = "{{hourly_label|safe }}";
   hourly_label = hourly_label.substring(1, hourly_label.length - 1) 
-  let hourly_label_list = hourly_label.split(",").map(String); 
-  console.log(hourly_label_list)
+  let hourly_label_list = hourly_label.split(","); 
+//   console.log(hourly_label_list)
 
   let hourly_data = "{{hourly_data|safe }}";
   hourly_data = hourly_data.substring(1, hourly_data.length -1) 
-  console.log(hourly_data)
+//   console.log(hourly_data)
   let hourly_data_list = hourly_data.split(",").map(Number);
   
   
