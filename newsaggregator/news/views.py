@@ -9,28 +9,29 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.urls import path
 from django.db.models.functions import TruncHour
 from django.db.models import Count
+# from django.core.paginator import Paginator
+from django.views.generic import ListView
 
 # Create your views here.
 
 API_KEY = config('NEWS_API_KEY')
 
-def top_headlines(request):
-    newsapi = NewsApiClient(api_key=API_KEY)
-    # top_headlines = newsapi.get_top_headlines(language='en',country='us')
-    # news_articles = top_headlines['articles']
-    news_articles = TopHeadlines.objects.filter().values().order_by('-published_at') # data from db
-    
-    print(news_articles[:2])
-    context = {
-        'news_articles': news_articles
-    }
-    
-    return render(request, 'home.html', context)
 
+class TopHeadlinesView(ListView):
+    model = TopHeadlines
+    template_name = 'home.html'
+    context_object_name = 'news_articles'
+    paginate_by = 12
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(published_at__gte=datetime.now()-timedelta(days=7)).order_by('-published_at')
+        return queryset
 
 
 @staff_member_required
 def volume_graphs(request):
+
     #daily
     daily_results = VolumeStatisticsDaily.objects.filter(created_at__gte=datetime.now()-timedelta(days=7)).values_list('total_results', 'created_at').order_by('created_at')
     localtz = ZoneInfo('localtime')
@@ -45,24 +46,23 @@ def volume_graphs(request):
 
     
     # hourly 
-    # this is in utc for now
     last_index = len(daily_results) - 1
     last_date = daily_results[last_index][1].date()
     
     hourly_results = TopHeadlines.objects.filter(published_at__gte=last_date).annotate(hour=TruncHour('published_at')).values('hour').annotate(daily_results=Count('published_at')).order_by('hour')
-    # print(hourly_results)
     hourly_label = []
     hourly_data = []
-    # print(hourly_results)
+    
     for i in hourly_results:
         hourly_label.append(i['hour'].strftime("%Y-%m-%d %H:%M"))
         hourly_data.append(i['daily_results'])
 
+    
     context = {
      'label': label,
      'data' : data,
      'hourly_label': hourly_label,
-     'hourly_data' : hourly_data
+     'hourly_data' : hourly_data,
     }
 
     return render(request, 'volume_graph.html', context)
@@ -91,3 +91,5 @@ class CustomAdminSite(admin.AdminSite):
         urls += [
             path("statistics/", volume_graphs, name="admin-statistics"),
         ]
+
+

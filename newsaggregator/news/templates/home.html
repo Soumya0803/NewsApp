@@ -1,30 +1,89 @@
 {% extends "base.html" %}
-{% block top_headines %}
-
-    <h1 class="text-center mt-4 mb-5">Top Headlines</h1>
-    <div class="row mt-5">
-        <div class="col-md-2"></div>
-        <div class="col-md-8">
-            <div class="row">
-                {% for news in news_articles %}
-                <div class="col-md-4 mb-5">
-                    <div class="card" style="width: 18rem">
-                        {% if news.url_to_image %}
-                        <img src="{{ news.url_to_image}}" class="card-img-top" alt="..." />
-                        {% else %}
-                        <img src="https://img.freepik.com/free-vector/3d-newspaper-icons-set-isolated-white_107791-15234.jpg?w=2000&t=st=1689242875~exp=1689243475~hmac=9da22d1a1c2761bbb9cff4c9a7c3b3370a08c3d2a1bdd0f032aec3d3434fd33a"
-                         class="card-img-top" alt="..." />
-                         {% endif %}
-                        <div class="card-body">
-                            <h5 class="card-title">{{ news.title }}</h5>
-                            <p class="card-text">{{ news.description }}</p>
-                            <a href="{{ news.url }}" class="btn btn-primary">Read More</a>
-                        </div>
+{% block top_headlines %}
+<h1 class="text-center mt-4 mb-5">Top Headlines</h1>
+<div class="row mt-5">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div class="row">
+            {% for news in news_articles %}
+            <div class="col-md-4 mb-5">
+                <div class="card" style="width: 18rem">
+                    {% if news.url_to_image %}
+                    <img src="{{ news.url_to_image }}" class="card-img-top" alt="..." />
+                    {% else %}
+                    <img src="https://img.freepik.com/free-vector/3d-newspaper-icons-set-isolated-white_107791-15234.jpg?w=2000&t=st=1689242875~exp=1689243475~hmac=9da22d1a1c2761bbb9cff4c9a7c3b3370a08c3d2a1bdd0f032aec3d3434fd33a"
+                        class="card-img-top" alt="..." />
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ news.title }}</h5>
+                        <p class="card-text">{{ news.description }}</p>
+                        <a href="{{ news.url }}" class="btn btn-primary">Read More</a>
                     </div>
                 </div>
-                {% endfor %}
             </div>
+            {% endfor %}
         </div>
-        <div class="col-md-2"></div>
+        {% if is_paginated %}
+        <nav aria-label="Topics pagination" class="mb-4">
+          <ul class="pagination">
+            {% if page_obj.number > 1 %}
+              <li class="page-item">
+                <a class="page-link" href="?page=1">First</a>
+              </li>
+            {% else %}
+              <li class="page-item disabled">
+                <span class="page-link">First</span>
+              </li>
+            {% endif %}
+      
+            {% if page_obj.has_previous %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+              </li>
+            {% else %}
+              <li class="page-item disabled">
+                <span class="page-link">Previous</span>
+              </li>
+            {% endif %}
+      
+            {% for page_num in paginator.page_range %}
+              {% if page_obj.number == page_num %}
+                <li class="page-item active">
+                  <span class="page-link">
+                    {{ page_num }}
+                    <span class="sr-only"></span>
+                  </span>
+                </li>
+              {% elif page_num > page_obj.number|add:'-3' and page_num < page_obj.number|add:'3' %}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+                </li>
+              {% endif %}
+            {% endfor %}
+      
+            {% if page_obj.has_next %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+              </li>
+            {% else %}
+              <li class="page-item disabled">
+                <span class="page-link">Next</span>
+              </li>
+            {% endif %}
+      
+            {% if page_obj.number != paginator.num_pages %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ paginator.num_pages }}">Last</a>
+              </li>
+            {% else %}
+              <li class="page-item disabled">
+                <span class="page-link">Last</span>
+              </li>
+            {% endif %}
+          </ul>
+        </nav>
+      {% endif %}
     </div>
-    {% endblock %}
+    <div class="col-md-2"></div>
+</div>
+{% endblock %}
