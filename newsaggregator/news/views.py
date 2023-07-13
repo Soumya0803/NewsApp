@@ -30,7 +30,6 @@ def top_headlines(request):
 @staff_member_required
 def volume_graphs(request):
     #daily
-    # daily_results = VolumeStatisticsDaily.objects.filter(created_at__gte=datetime.now()-timedelta(days=7)).values_list('total_results', flat=True).order_by('created_at')
     daily_results = VolumeStatisticsDaily.objects.filter(created_at__gte=datetime.now()-timedelta(days=7)).values_list('total_results', 'created_at').order_by('created_at')
     localtz = ZoneInfo('localtime')
     label = []
@@ -38,8 +37,10 @@ def volume_graphs(request):
     for i in daily_results:
         data.append(i[0])
         #convert utc to local datetime to show correctly in graph
-        local_dt= i[1].astimezone(localtz) 
-        label.append(local_dt.strftime("%Y-%m-%d"))
+        # local_dt= i[1].astimezone(localtz) 
+        # label.append(local_dt.strftime("%Y-%m-%d"))
+        label.append(i[1].strftime("%Y-%m-%d")) #utc
+
     
     # hourly 
     # this is in utc for now
