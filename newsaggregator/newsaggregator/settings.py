@@ -26,6 +26,7 @@ SECRET_KEY = config('DJANGO_SECRET_KEY')
 DEBUG = True
 
 ALLOWED_HOSTS = [
+    '127.0.0.1',
     'https://newsapp.soumya0803.in'
 ]
 
