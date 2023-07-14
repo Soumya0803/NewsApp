@@ -24,11 +24,11 @@ API_KEY = config('NEWS_API_KEY')
 def populate_top_headlines_news_db():
     CATEGORY_CHOICES = [
         'business',
-        'entertainment',
-        'general',
-        'health',
+        # 'entertainment',
+        # 'general',
+        # 'health',
         'science',
-        'sports',
+        # 'sports',
         'technology'
     ]
     daily_total_results = 0
