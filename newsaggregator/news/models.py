@@ -12,15 +12,15 @@ CATEGORY_CHOICES = [
 
 class TopHeadlines(models.Model):
     source_id = models.CharField(max_length=100, null= True)
-    source_name =  models.CharField(max_length=100)
+    source_name =  models.CharField(max_length=100,null= True)
     author =  models.CharField(max_length=100, null= True)
-    title =  models.CharField(max_length=1000)
+    title =  models.CharField(max_length=1000,null= True)
     description =  models.CharField(max_length=1000,null=True)
     url = models.URLField(max_length=10000, null=True)
     url_to_image = models.URLField(max_length=1000, null=True)
-    published_at = models.DateTimeField()
+    published_at = models.DateTimeField(null= True)
     content = models.TextField(null = True)
-    category = models.CharField(max_length=50, choices=CATEGORY_CHOICES)
+    category = models.CharField(max_length=50, choices=CATEGORY_CHOICES,null= True)
 
 
 class VolumeStatisticsDaily(models.Model):
