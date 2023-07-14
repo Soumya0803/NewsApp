@@ -46,10 +46,9 @@ def volume_graphs(request):
 
     
     # hourly 
-    last_index = len(daily_results) - 1
-    last_date = daily_results[last_index][1].date()
-    
-    hourly_results = TopHeadlines.objects.filter(published_at__gte=last_date).annotate(hour=TruncHour('published_at')).values('hour').annotate(daily_results=Count('published_at')).order_by('hour')
+    # last_index = len(daily_results) - 1
+    hourly_results = TopHeadlines.objects.filter(created_at__gte=datetime.now()-timedelta(days=2)).annotate(hour=TruncHour('published_at')).values('hour').annotate(daily_results=Count('published_at')).order_by('hour')[:24]
+
     hourly_label = []
     hourly_data = []
     
@@ -57,7 +56,6 @@ def volume_graphs(request):
         hourly_label.append(i['hour'].strftime("%Y-%m-%d %H:%M"))
         hourly_data.append(i['daily_results'])
 
-    
     context = {
      'label': label,
      'data' : data,
